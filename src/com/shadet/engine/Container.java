@@ -1,18 +1,23 @@
 package com.shadet.engine;
 
+import com.shadet.engine.window.Renderer;
 import com.shadet.engine.window.Window;
 
 public class Container implements Runnable{
     private Thread thread;
     private Window window;
+    private Renderer renderer;
+
     private boolean render = false;
     private boolean running = false;
     private final double UPDATE_CAP = 1.0/60.0;
 
     private int width = 320;
     private int height = 240;
-    private float scale = 4;
+    private float scale = 4f;
     private String title = "ShadetEngine v0.0.1";
+
+
 
     public int getWidth() {
         return width;
@@ -24,6 +29,8 @@ public class Container implements Runnable{
 
     public void start(){
         window = new Window(this);
+        renderer = new Renderer(this);
+
         thread = new Thread(this);
         thread.run();
     }
@@ -67,6 +74,7 @@ public class Container implements Runnable{
                 }
             }
             if (render){
+                renderer.clear();
                 //TODO: Render game
                 frames++;
                 window.update();
@@ -113,5 +121,9 @@ public class Container implements Runnable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Window getWindow() {
+        return window;
     }
 }
