@@ -16,8 +16,8 @@ public class Window {
     private Graphics graphics;
     public Window(Container co){
         image = new BufferedImage(co.getWidth(), co.getHeight(), BufferedImage.TYPE_INT_RGB);
-        canvas = new Canvas();
         Dimension s = new Dimension((int) (co.getWidth() * co.getScale()), (int) (co.getHeight() * co.getScale()));
+        canvas = new Canvas();
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
@@ -26,5 +26,18 @@ public class Window {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(canvas, BorderLayout.CENTER);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setVisible(true);
+
+        canvas.createBufferStrategy(2);
+        bs = canvas.getBufferStrategy();
+        graphics = bs.getDrawGraphics();
+    }
+
+    public void update(){
+        graphics.drawImage(image, 0, 0,canvas.getWidth(), canvas.getHeight(), null);
+        bs.show();
     }
 }

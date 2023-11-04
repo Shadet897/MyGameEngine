@@ -1,6 +1,6 @@
 package com.shadet.engine.launcher;
 
-import com.shadet.engine.window.Container;
+import com.shadet.engine.Container;
 
 public class EngineLauncher {
     public static void main(String[] args) {
