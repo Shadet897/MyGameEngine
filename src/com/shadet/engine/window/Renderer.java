@@ -1,6 +1,6 @@
 package com.shadet.engine.window;
 
-import com.shadet.engine.Container;
+import com.shadet.engine.container.Container;
 
 import java.awt.image.DataBufferInt;
 

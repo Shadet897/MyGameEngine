@@ -1,6 +1,6 @@
 package com.shadet.engine.window;
 
-import com.shadet.engine.Container;
+import com.shadet.engine.container.Container;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,5 +47,9 @@ public class Window {
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

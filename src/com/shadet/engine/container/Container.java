@@ -1,5 +1,6 @@
-package com.shadet.engine;
+package com.shadet.engine.container;
 
+import com.shadet.engine.inputListener.Input;
 import com.shadet.engine.window.Renderer;
 import com.shadet.engine.window.Window;
 
@@ -7,6 +8,7 @@ public class Container implements Runnable{
     private Thread thread;
     private Window window;
     private Renderer renderer;
+    private Input input;
 
     private boolean render = false;
     private boolean running = false;
@@ -30,6 +32,7 @@ public class Container implements Runnable{
     public void start(){
         window = new Window(this);
         renderer = new Renderer(this);
+        input = new Input(this);
 
         thread = new Thread(this);
         thread.run();
@@ -66,6 +69,10 @@ public class Container implements Runnable{
                 render = true;
 
                 //TODO: Update game
+                System.out.println("mouseX: " + input.getMouseX() + " mouseY: " + input.getMouseY());
+
+                input.update();
+
                 if (frameTime >= 1.0){
                     frameTime = 0;
                     fps = frames;
