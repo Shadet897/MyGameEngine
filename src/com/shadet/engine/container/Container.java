@@ -1,7 +1,8 @@
 package com.shadet.engine.container;
 
+import com.shadet.engine.abstractGame.AbstractGame;
 import com.shadet.engine.inputListener.Input;
-import com.shadet.engine.window.Renderer;
+import com.shadet.engine.renderer.Renderer;
 import com.shadet.engine.window.Window;
 
 public class Container implements Runnable{
@@ -9,6 +10,7 @@ public class Container implements Runnable{
     private Window window;
     private Renderer renderer;
     private Input input;
+    private AbstractGame game;
 
     private boolean render = false;
     private boolean running = false;
@@ -19,14 +21,11 @@ public class Container implements Runnable{
     private float scale = 4f;
     private String title = "ShadetEngine v0.0.1";
 
-
-
+    public Container(AbstractGame game){
+        this.game = game;
+    }
     public int getWidth() {
         return width;
-    }
-
-    public Container(){
-
     }
 
     public void start(){
@@ -69,7 +68,7 @@ public class Container implements Runnable{
                 render = true;
 
                 //TODO: Update game
-                System.out.println("mouseX: " + input.getMouseX() + " mouseY: " + input.getMouseY());
+                game.update(this, (float)(UPDATE_CAP));
 
                 input.update();
 
@@ -82,7 +81,7 @@ public class Container implements Runnable{
             }
             if (render){
                 renderer.clear();
-                //TODO: Render game
+                game.render(this, renderer);
                 frames++;
                 window.update();
             }
@@ -132,5 +131,9 @@ public class Container implements Runnable{
 
     public Window getWindow() {
         return window;
+    }
+
+    public Input getInput() {
+        return input;
     }
 }

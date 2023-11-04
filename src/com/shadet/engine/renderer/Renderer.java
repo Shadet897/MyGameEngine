@@ -1,4 +1,4 @@
-package com.shadet.engine.window;
+package com.shadet.engine.renderer;
 
 import com.shadet.engine.container.Container;
 
