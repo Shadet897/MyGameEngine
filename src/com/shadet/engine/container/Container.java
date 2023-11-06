@@ -51,7 +51,7 @@ public class Container implements Runnable{
 
         double firstTime = 0;
         double lastTime = System.nanoTime() / 1000000000.0;
-        double passedTime = 0;
+        double deltaTime = 0;
         double unprocessedTime = 0;
 
         frameTime = 0;
@@ -61,11 +61,11 @@ public class Container implements Runnable{
         while (running){
             render = false;
             firstTime = System.nanoTime() / 1000000000.0;
-            passedTime = firstTime - lastTime;
+            deltaTime = firstTime - lastTime;
             lastTime = firstTime;
 
-            unprocessedTime += passedTime;
-            frameTime += passedTime;
+            unprocessedTime += deltaTime;
+            frameTime += deltaTime;
 
             while (unprocessedTime >= UPDATE_CAP){
                 unprocessedTime -= UPDATE_CAP;
@@ -75,17 +75,18 @@ public class Container implements Runnable{
                 game.update(this, (float)(UPDATE_CAP));
 
                 input.update();
-
+                /*
                 if (frameTime >= 1.0){
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
-                }
+                } */
+
             }
             if (render){
                 renderer.clear();
                 game.render(this, renderer);
-                renderer.drawText("FPS " + fps, 1, 1, 0x77007777);
+                // draws fps hardcoded : renderer.drawText("FPS " + fps, 1, 1, 0x77007777);
                 window.update();
                 frames++;
             }
