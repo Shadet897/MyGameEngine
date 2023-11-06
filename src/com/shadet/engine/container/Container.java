@@ -21,6 +21,10 @@ public class Container implements Runnable{
     private float scale = 4f;
     private String title = "ShadetEngine v0.0.1";
 
+    private double frameTime = 0;
+    private int frames = 0;
+    private int fps = 0;
+
     public Container(AbstractGame game){
         this.game = game;
     }
@@ -30,7 +34,7 @@ public class Container implements Runnable{
 
     public void start(){
         window = new Window(this);
-        renderer = new Renderer(this);
+        renderer = new Renderer(this, window);
         input = new Input(this);
 
         thread = new Thread(this);
@@ -50,9 +54,9 @@ public class Container implements Runnable{
         double passedTime = 0;
         double unprocessedTime = 0;
 
-        double frameTime = 0;
-        int frames = 0;
-        int fps = 0;
+        frameTime = 0;
+        frames = 0;
+        fps = 0;
 
         while (running){
             render = false;
@@ -76,14 +80,14 @@ public class Container implements Runnable{
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
-                    System.out.println("FPS: " + fps);
                 }
             }
             if (render){
                 renderer.clear();
                 game.render(this, renderer);
-                frames++;
+                renderer.drawText("FPS " + fps, 1, 1, 0x77007777);
                 window.update();
+                frames++;
             }
             else {
                 try {
@@ -135,5 +139,9 @@ public class Container implements Runnable{
 
     public Input getInput() {
         return input;
+    }
+
+    public int getFps() {
+        return fps;
     }
 }

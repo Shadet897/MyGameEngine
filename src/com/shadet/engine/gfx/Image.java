@@ -51,4 +51,5 @@ public class Image {
     public void setPixels(int[] pixels) {
         this.pixels = pixels;
     }
+
 }
