@@ -11,24 +11,27 @@ public class Renderer {
     private int pixelWidth;
     private int pixelHeight;
     private int[] pixels;
-    private Window window;
+    private int[] zBuffer;
+    private int zDepth;
 
-    private Font font = Font.STANDART;
+    private Window window;
 
     public Renderer(Container co, Window window){
         this.window = window;
         pixelWidth = co.getWidth();
         pixelHeight = co.getHeight();
         pixels = ((DataBufferInt)co.getWindow().getImage().getRaster().getDataBuffer()).getData();
+        zBuffer = new int[pixels.length];
     }
 
-    public void clear(){
+    public void clear(int color){
         for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = 0x000000;
+            pixels[i] = 0;
+            zBuffer[i] = 0;
         }
     }
 
-    public void drawText(String text, int posX, int posY, int color){
+    public void drawText(String text, int posX, int posY, int color, Font font){
         text = text.toUpperCase();
         int offset = 0;
 
@@ -38,7 +41,7 @@ public class Renderer {
             for (int y = 0; y < font.getFontImage().getHeight(); y++) {
                 for (int x = 0; x < font.getWidth()[unicode]; x++) {
                     if (font.getFontImage().getPixels()[(x + font.getOffset()[unicode]) + y * font.getFontImage().getWidth()] == 0xffffffff){
-                        setPixel(x + posX + offset, y + posX, color);
+                        setPixel(x + posX + offset, y + posY, color);
                     }
                 }
             }
@@ -46,19 +49,59 @@ public class Renderer {
         }
     }
 
-    public void drawImage(Image image, int offX, int offY, int posX, int posY){
+    public void drawRect(int posX, int posY, int width, int height, int color){
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (x == 0 || y == 0 || y == height - 1 || x == width - 1){
+                    setPixel(x + posX, y + posY, color);
+                }
+            }
+        }
+    }
+
+    public void drawFillRect(int posX, int posY, int width, int height, int color){
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                setPixel(x + posX, y + posY, color);
+            }
+        }
+    }
+
+    public void drawImage(Image image, int posX, int posY){
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth() ; x++) {
-                setPixel(x + offX + posX, y + offY + posY, image.getPixels()[x + y * image.getWidth()]);
+                setPixel(x + posX, y + posY, image.getPixels()[x + y * image.getWidth()]);
             }
         }
     }
 
     public void setPixel(int x, int y, int value){
-        if ((x < 0 || y >= pixelWidth || y < 0 || y >= pixelHeight) || value == 0xffff00ff){
+        int alpha = ((value >> 24) & 0xff);
+        if ((x < 0 || y >= pixelWidth || y < 0 || y >= pixelHeight) || alpha == 0){
             return;
         }
+        if (zBuffer[x + y * pixelWidth] > zDepth){
+            return;
+        }
+        if (alpha == 255){
+            pixels[x + y * pixelWidth] = value;
+        }
+        else {
 
-        pixels[x + y * pixelWidth] = value;
+            int pixelColor = pixels[x + y * pixelWidth];
+            int newRed = ((pixelColor >> 16) & 0xff) - (int) ((((pixelColor >> 16) & 0xff) - ((value >> 16) & 0xff)) * (alpha / 255f));
+            int newGreen = ((pixelColor >> 8) & 0xff) - (int) ((((pixelColor >> 8) & 0xff) - ((value >> 16) & 0xff)) * (alpha / 255f));
+            int newBlue = (pixelColor & 0xff) - (int) (((pixelColor & 0xff) - (value & 0xff)) * (alpha / 255f));
+
+            pixels[x + y * pixelWidth] = (255 << 24 | newRed << 16 | newGreen << 8 | newBlue);
+        }
+    }
+
+    public int getzDepth() {
+        return zDepth;
+    }
+
+    public void setzDepth(int zDepth) {
+        this.zDepth = zDepth;
     }
 }

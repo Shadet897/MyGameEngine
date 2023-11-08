@@ -1,23 +1,28 @@
 package com.shadet.engine.overlay;
 
 public class FpsCounter {
-    private int fps;
     private int frames;
-    private double frameTime;
+    private int fps;
+    private double timePassed;
 
-    public void update(double deltaTime) {
-        frameTime += deltaTime;
+    public FpsCounter() {
+        frames = 0;
+        fps = 0;
+        timePassed = 0;
+    }
+
+    public void update(float dt) {
+        timePassed += dt;
         frames++;
 
-        if (frameTime >= 1.0) {
-            frameTime = 0;
+        if (timePassed >= 1.0) {
             fps = frames;
             frames = 0;
+            timePassed = 0;
         }
     }
 
     public int getFPS() {
         return fps;
     }
-
 }

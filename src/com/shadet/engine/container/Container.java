@@ -75,18 +75,14 @@ public class Container implements Runnable{
                 game.update(this, (float)(UPDATE_CAP));
 
                 input.update();
-                /*
                 if (frameTime >= 1.0){
                     frameTime = 0;
                     fps = frames;
                     frames = 0;
-                } */
-
+                }
             }
             if (render){
-                renderer.clear();
                 game.render(this, renderer);
-                // draws fps hardcoded : renderer.drawText("FPS " + fps, 1, 1, 0x77007777);
                 window.update();
                 frames++;
             }

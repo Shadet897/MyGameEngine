@@ -8,7 +8,6 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class Window {
-
     private JFrame frame;
     private BufferedImage image;
     private Canvas canvas;

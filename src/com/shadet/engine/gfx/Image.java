@@ -2,14 +2,13 @@ package com.shadet.engine.gfx;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Image {
     private int width;
     private int height;
     private int[] pixels;
+    private boolean alpha = false;
 
     public Image(String path){
         BufferedImage image = null;
@@ -52,4 +51,11 @@ public class Image {
         this.pixels = pixels;
     }
 
+    public boolean isAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(boolean alpha) {
+        this.alpha = alpha;
+    }
 }
