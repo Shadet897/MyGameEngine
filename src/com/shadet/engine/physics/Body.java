@@ -3,12 +3,15 @@ package com.shadet.engine.physics;
 public class Body {
     private int posX, posY, width, height;
     private boolean isAffected;
+    private double yMomentum, xMomentum;
     public Body(int posX, int posY, int width, int height, boolean isAffected){
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.isAffected = isAffected;
+        yMomentum = 0;
+        xMomentum = 0;
     }
 
     public boolean isAffected() {
@@ -49,5 +52,21 @@ public class Body {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public double getyMomentum() {
+        return yMomentum;
+    }
+
+    public void setyMomentum(double yMomentum) {
+        this.yMomentum = yMomentum;
+    }
+
+    public double getxMomentum() {
+        return xMomentum;
+    }
+
+    public void setxMomentum(double xMomentum) {
+        this.xMomentum = xMomentum;
     }
 }

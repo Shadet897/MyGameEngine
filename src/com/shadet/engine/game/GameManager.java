@@ -21,16 +21,14 @@ public class GameManager extends AbstractGame {
         playerX = 20;
         playerY = 0;
 
-        physics2D = new Physics2D(0, 2);
+        physics2D = new Physics2D(0, 4, 0, 0.3);
         playerBody = new Body(playerX, playerY, playerWidth, playerHeight, true);
         physics2D.addBody(playerBody);
-
-
     }
 
     @Override
     public void update(Container co, float dt) {
-        physics2D.updatePhysics2D();
+        physics2D.updateGravity(dt);
     }
 
     @Override

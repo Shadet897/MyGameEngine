@@ -1,41 +1,56 @@
 package com.shadet.engine.physics;
 
-import com.shadet.engine.renderer.Renderer;
-
 import java.util.ArrayList;
 
 public class Physics2D {
     private ArrayList<Body> bodies;
-    private double xMomentum, yMomentum;
+    private double xMomentumMax, yMomentumMax, xMomentumChange, yMomentumChange;
+    private float timePassed;
 
-    public Physics2D(double xMomentum, double yMomentum){
-        this.xMomentum = xMomentum;
-        this.yMomentum = yMomentum;
+    public Physics2D(double xMomentumMax, double yMomentumMax, double xMomentumChange, double yMomentumChange){
+        this.xMomentumMax = xMomentumMax;
+        this.yMomentumMax = yMomentumMax;
+        this.xMomentumChange = xMomentumChange;
+        this.yMomentumChange = yMomentumChange;
+        timePassed = 0;
         bodies = new ArrayList<>();
     }
 
     public void updatePhysics2D(){
-        updateGravity();
+
         updateColision();
     }
 
 
     public void updateColision(){
+        /*
         for (Body body : bodies){
             for (Body body1 : bodies){
-                for (int x1 = 0; x1 < body.getWidth(); x++) {
+                for (int x1 = 0; x1 < body.getWidth(); x1++) {
                     for (int y1 = 0; y1 < body.getHeight(); y1++) {
 
                     }
                 }
             }
         }
+
+         */
     }
 
-    public void updateGravity(){
-        for (Body body : bodies){
-            if (body.isAffected()){
-                body.setPosY(body.getPosY() + (int) yMomentum);
+    public void updateGravity(float dt){
+        timePassed += dt;
+
+        for (Body body : bodies) {
+            if (timePassed >= 1.0){
+            body.setyMomentum(body.getyMomentum() + yMomentumChange);
+            }
+            if (body.isAffected()) {
+                if (yMomentumChange < yMomentumMax) {
+                    body.setPosY((int) ((body.getPosY()) + body.getyMomentum()));
+                }
+                else if (body.getyMomentum() >= yMomentumMax) {
+                    body.setPosY((int) (body.getPosY() + yMomentumMax * dt));
+                }
             }
         }
     }
@@ -57,20 +72,20 @@ public class Physics2D {
         bodies.remove(body);
     }
 
-    public double getxMomentum() {
-        return xMomentum;
+    public double getxMomentumMax() {
+        return xMomentumMax;
     }
 
-    public void setxMomentum(int xMomentum) {
-        this.xMomentum = xMomentum;
+    public void setxMomentumMax(int xMomentumMax) {
+        this.xMomentumMax = xMomentumMax;
     }
 
-    public double getyMomentum() {
-        return yMomentum;
+    public double getyMomentumMax() {
+        return yMomentumMax;
     }
 
-    public void setyMomentum(int yMomentum) {
-        this.yMomentum = yMomentum;
+    public void setyMomentumMax(int yMomentumMax) {
+        this.yMomentumMax = yMomentumMax;
     }
 
     public ArrayList<Body> getBodies() {

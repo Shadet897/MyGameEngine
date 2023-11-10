@@ -18,7 +18,7 @@ public class Container implements Runnable{
 
     private int width = 320;
     private int height = 240;
-    private float scale = 4f;
+    private float scale = 3f;
     private String title = "ShadetEngine v0.0.1";
 
     private double frameTime = 0;
