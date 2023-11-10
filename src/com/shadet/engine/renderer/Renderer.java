@@ -104,4 +104,12 @@ public class Renderer {
     public void setzDepth(int zDepth) {
         this.zDepth = zDepth;
     }
+
+    public int[] getPixels() {
+        return pixels;
+    }
+
+    public int getPixelWidth() {
+        return pixelWidth;
+    }
 }

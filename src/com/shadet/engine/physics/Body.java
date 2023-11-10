@@ -2,6 +2,7 @@ package com.shadet.engine.physics;
 
 public class Body {
     private int posX, posY, width, height;
+    private int lastPosX, lastPosY;
     private boolean isAffected;
     private double yMomentum, xMomentum;
     public Body(int posX, int posY, int width, int height, boolean isAffected){
@@ -68,5 +69,21 @@ public class Body {
 
     public void setxMomentum(double xMomentum) {
         this.xMomentum = xMomentum;
+    }
+
+    public int getLastPosX() {
+        return lastPosX;
+    }
+
+    public void setLastPosX(int lastPosX) {
+        this.lastPosX = lastPosX;
+    }
+
+    public int getLastPosY() {
+        return lastPosY;
+    }
+
+    public void setLastPosY(int lastPosY) {
+        this.lastPosY = lastPosY;
     }
 }
