@@ -141,4 +141,8 @@ public class Container implements Runnable{
     public int getFps() {
         return fps;
     }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
 }
